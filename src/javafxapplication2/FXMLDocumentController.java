@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -51,10 +52,10 @@ public class FXMLDocumentController implements Initializable {
 //
 //                System.out.print((char) i);
 //            }
-
             byte[] buffer = new byte[fin.available()];
-            fin.read(buffer, 0, buffer.length);
-            fos.write(buffer, 0, buffer.length/2);
+
+            fin.read(buffer, 2, 3);
+            fos.write(buffer, 2, 3);
 
         } catch (IOException ex) {
 
