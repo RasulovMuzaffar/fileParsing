@@ -18,9 +18,11 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -62,11 +64,26 @@ public class FXMLDocumentController implements Initializable {
             System.out.println("--------->> " + f);
             newFilePath = f.toString();
             FileOutputStream fos = new FileOutputStream(newFilePath);
-            int from = Integer.parseInt(fromByte.getText()) - 1;
-            int to = Integer.parseInt(toByte.getText());
-            fin.read(buffer, 0, buffer.length);
-            fos.write(buffer, from, (buffer.length - from) - (buffer.length - to));
 
+            fin.read(buffer, 0, buffer.length);
+            if (!fromByte.getText().isEmpty() && !toByte.getText().isEmpty()) {
+                int from = Integer.parseInt(fromByte.getText()) - 1;
+                int to = Integer.parseInt(toByte.getText());
+                fos.write(buffer, from, (buffer.length - from) - (buffer.length - to));
+            } else if (!fromByte.getText().isEmpty() && toByte.getText().isEmpty()) {
+                int from = Integer.parseInt(fromByte.getText()) - 1;
+                fos.write(buffer, from, buffer.length - from);
+            } else if (fromByte.getText().isEmpty() && !toByte.getText().isEmpty()) {
+                int to = Integer.parseInt(toByte.getText());
+                fos.write(buffer, 0, buffer.length - (buffer.length - to));
+            } else if (fromByte.getText().isEmpty() && toByte.getText().isEmpty()) {
+                fos.write(buffer, 0, buffer.length);
+            }
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Информация...");
+            alert.setHeaderText("Файл был успешно сохранен!");
+            alert.showAndWait();
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
