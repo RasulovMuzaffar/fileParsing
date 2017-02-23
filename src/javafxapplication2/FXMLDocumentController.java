@@ -29,6 +29,7 @@ import javafx.stage.Stage;
 public class FXMLDocumentController implements Initializable {
 
     String filePath;
+    String newFilePath;
 
     @FXML
     private TextField fileOpenPath;
@@ -43,8 +44,7 @@ public class FXMLDocumentController implements Initializable {
     private void handleButtonAction(ActionEvent event) {
         System.out.println(fromByte.getText() + toByte.getText());
 
-        try (FileInputStream fin = new FileInputStream(filePath);
-                FileOutputStream fos = new FileOutputStream("C://Users//Музаффар//Desktop//newFile.txt")) {
+        try (FileInputStream fin = new FileInputStream(filePath)) {
             System.out.println("Размер файла: " + fin.available() + " байт(а)");
 
 //            int i = -1;
@@ -53,9 +53,15 @@ public class FXMLDocumentController implements Initializable {
 //                System.out.print((char) i);
 //            }
             byte[] buffer = new byte[fin.available()];
-
-            fin.read(buffer, 2, 3);
-            fos.write(buffer, 2, 3);
+            
+                FileOutputStream fos = new FileOutputStream(newFilePath)
+            Stage stage = new Stage();
+            FileChooser fc = new FileChooser();
+            File f = fc.showSaveDialog(stage);
+            System.out.println("--------->> " + f);
+            newFilePath = f.toString();
+            fin.read(buffer, 0, buffer.length);
+            fos.write(buffer, 2, buffer.length - 2);
 
         } catch (IOException ex) {
 
