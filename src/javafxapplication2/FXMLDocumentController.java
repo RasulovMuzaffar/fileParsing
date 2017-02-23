@@ -53,15 +53,17 @@ public class FXMLDocumentController implements Initializable {
 //                System.out.print((char) i);
 //            }
             byte[] buffer = new byte[fin.available()];
-            
-                FileOutputStream fos = new FileOutputStream(newFilePath)
+
             Stage stage = new Stage();
             FileChooser fc = new FileChooser();
             File f = fc.showSaveDialog(stage);
             System.out.println("--------->> " + f);
             newFilePath = f.toString();
+            FileOutputStream fos = new FileOutputStream(newFilePath);
+            int from = Integer.parseInt(fromByte.getText()) - 1;
+            int to = Integer.parseInt(toByte.getText());
             fin.read(buffer, 0, buffer.length);
-            fos.write(buffer, 2, buffer.length - 2);
+            fos.write(buffer, from, (buffer.length - from) - (buffer.length - to));
 
         } catch (IOException ex) {
 
