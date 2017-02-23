@@ -25,6 +25,6 @@
             </font>
         </Label>
       <Label layoutX="14.0" layoutY="96.0" text="Размер файла:" />
-      <Label fx:id="lenFile" layoutX="103.0" layoutY="97.0" prefHeight="17.0" prefWidth="58.0" textFill="#f80202" />
+      <Label fx:id="lenFile" layoutX="103.0" layoutY="97.0" prefHeight="17.0" prefWidth="185.0" textFill="#f80202" />
     </children>
 </AnchorPane>
