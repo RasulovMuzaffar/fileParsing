@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -27,33 +28,34 @@ import javafx.stage.Stage;
  * @author Muzaffar
  */
 public class FXMLDocumentController implements Initializable {
-
+    
     String filePath;
     String newFilePath;
-
+    
+    @FXML
+    private Label lenFile;
     @FXML
     private TextField fileOpenPath;
-
+    
     @FXML
     private TextField fromByte;
-
+    
     @FXML
     private TextField toByte;
-
+    
     @FXML
     private void handleButtonAction(ActionEvent event) {
         System.out.println(fromByte.getText() + toByte.getText());
-
+        
         try (FileInputStream fin = new FileInputStream(filePath)) {
             System.out.println("Размер файла: " + fin.available() + " байт(а)");
-
 //            int i = -1;
 //            while ((i = fin.read()) != -1) {
 //
 //                System.out.print((char) i);
 //            }
             byte[] buffer = new byte[fin.available()];
-
+            
             Stage stage = new Stage();
             FileChooser fc = new FileChooser();
             File f = fc.showSaveDialog(stage);
@@ -64,18 +66,16 @@ public class FXMLDocumentController implements Initializable {
             int to = Integer.parseInt(toByte.getText());
             fin.read(buffer, 0, buffer.length);
             fos.write(buffer, from, (buffer.length - from) - (buffer.length - to));
-
-        } catch (IOException ex) {
-
+            
+        } catch (IOException ex) {            
             System.out.println(ex.getMessage());
         }
     }
-
+    
     @FXML
-    private void handleButtonActionOpen(ActionEvent event
-    ) {
+    private void handleButtonActionOpen(ActionEvent event) {
         Stage stage = new Stage();
-
+        
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open File.");
 //        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
@@ -88,12 +88,14 @@ public class FXMLDocumentController implements Initializable {
         System.out.println(file);
         fileOpenPath.setText("" + file);
         filePath = "" + file;
+        File f = new File(filePath);
+        lenFile.setText(""+f.length()+" байт(а)");
     }
-
+    
     @Override
     public void initialize(URL url, ResourceBundle rb
     ) {
         // TODO
     }
-
+    
 }
