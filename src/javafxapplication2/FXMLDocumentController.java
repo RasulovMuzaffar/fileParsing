@@ -80,6 +80,9 @@ public class FXMLDocumentController implements Initializable {
                 fos.write(buffer, 0, buffer.length);
             }
 
+            fin.close();
+            fos.close();
+
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Информация...");
             alert.setHeaderText("Файл был успешно сохранен!");
